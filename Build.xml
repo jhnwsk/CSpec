@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <DeployDirectory>$(MSBuildProjectDirectory)..\..\..\bin</DeployDirectory>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectFiles Include="src\**\*.csproj" Exclude="$(MSBuildProjectFile)"/>
+  </ItemGroup>
+
+  <Target Name="Build">
+    <MSBuild Projects ="@(ProjectFiles)"
+             ContinueOnError ="false"
+             Targets="Rebuild">
+      <Output ItemName="BuildOutput" TaskParameter="TargetOutputs"/>
+    </MSBuild>
+
+    <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(DeployDirectory)" />
+
+  </Target>
+</Project>
